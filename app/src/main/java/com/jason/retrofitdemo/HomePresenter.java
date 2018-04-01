@@ -1,12 +1,10 @@
 package com.jason.retrofitdemo;
 
 import com.jason.retrofitdemo.api.LoginApi;
-import com.jason.retrofitdemo.model.User;
 import com.jason.retrofitdemo.model.WrapperRspEntity;
 import com.jason.retrofitdemo.net.RetrofitManager;
 
 import rx.Observable;
-import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -14,23 +12,45 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2018/3/31 0031.
  */
 
-public class HomePresenter implements Observer<WrapperRspEntity<? extends BaseBean>> {
+public class HomePresenter extends BasePresenter{
 
     private HomeView homeView;
 
     public HomePresenter(HomeView homeView) {
+        super(homeView);
         this.homeView = homeView;
     }
 
-    /**
-     * 登录
-     * @param test1
-     * @param s
-     * @param userClass
-     */
-    public void requestLogin(String test1, String s, Class<User> userClass) {
+//    private RequestBody createRequestBody(String json) {
+//        return RequestBody.create(JSON, json.toString());
+//    }
+
+//    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+//    public static final MediaType JSON = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
+
+
+
+    public void requestLogin(String test1, String s,String id ) {
         homeView.showDialog();
-        setObservable(getApi().loginReq(test1, s)).subscribe(this);
+
+//        JSONObject json = new JSONObject();
+//        try {
+//            json.put("phone", test1);
+//            json.put("password", s);
+//            json.put("registration_id", id);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+
+//        RequestBody body = new FormBody.Builder()
+//                .add("phone",test1)
+//                .add("password",s)
+//                .add("registration_id",id).build();
+
+
+//        RequestBody requestBody = createRequestBody(json.toString());
+
+       setObservable(getApi().loginReq(test1,s,id)).subscribe(this);
     }
 
     /**
@@ -39,34 +59,9 @@ public class HomePresenter implements Observer<WrapperRspEntity<? extends BaseBe
      * @param s1
      * @param s2
      */
-    public void requestRegister(String s, String s1, String s2) {
+    public void requestRegister(String s, String s1, String s2,String s4) {
         homeView.showDialog();
-        setObservable(getApi().registerReq(s, s1,s2)).subscribe(this);
-    }
-
-
-    private Observable setObservable(Observable observable) {
-        return observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    private LoginApi getApi() {
-        return RetrofitManager.getInstance().createReq(LoginApi.class);
-    }
-
-    @Override
-    public void onCompleted() {
-    }
-
-    @Override
-    public void onError(Throwable e) {
-        homeView.dismissDialog();
-    }
-
-    @Override
-    public void onNext(WrapperRspEntity<? extends BaseBean> wrapperRspEntity) {
-        homeView.dismissDialog();
-        homeView.onSuccess(wrapperRspEntity);
+        setObservable(getApi().registerReq(s, s1,s2,s4)).subscribe(this);
     }
 
 

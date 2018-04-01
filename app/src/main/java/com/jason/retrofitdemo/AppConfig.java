@@ -7,6 +7,8 @@ package com.jason.retrofitdemo;
 public class AppConfig {
     public static final boolean DEBUG = true;
 
-    public static final String BASE_URL = "http://127.0.0.1:8080/user/";
+
+
+    public static final String BASE_URL = "http://manage.jinsxy.com";
 
 }

@@ -5,17 +5,17 @@ package com.jason.retrofitdemo.model;
  * @date 2016/8/19
  */
 public class WrapperRspEntity<T> {
-    private int status;
+    private String code;
     private T data;
     private String msg; //errorMSG;
 
 
-    public int getStatus() {
-        return status;
+    public String getCode() {
+        return code;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public T getData() {

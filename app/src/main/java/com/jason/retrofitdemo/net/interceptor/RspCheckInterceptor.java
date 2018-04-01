@@ -1,8 +1,10 @@
 package com.jason.retrofitdemo.net.interceptor;
 
 
+import com.jason.retrofitdemo.BaseBean;
 import com.jason.retrofitdemo.util.InterceptorUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,10 +26,17 @@ public class RspCheckInterceptor implements Interceptor{
             try {
                 ResponseBody rspBody = response.body();
                 JSONObject jsonObject = new JSONObject(InterceptorUtils.getRspData(rspBody));
-                int status = jsonObject.getInt("status");
-                if (status < 200 || status >= 300){
-                    throw new IOException(jsonObject.getString("msg"));
+                String status = jsonObject.getString("code");
+
+                JSONArray data1 = jsonObject.getJSONArray("data");
+                if(null!=data1){
+                    jsonObject.remove("data");
+
+                    jsonObject.put("data",null);
                 }
+                //                if (status < 200 || status >= 300){
+//                    throw new IOException(jsonObject.getString("msg"));
+//                }
             } catch (JSONException e) {
                 e.printStackTrace();
                 throw new IOException("parase data error");
